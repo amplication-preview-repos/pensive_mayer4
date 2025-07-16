@@ -1,0 +1,102 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Doctor {
+  appointments  Appointment[]
+  createdAt     DateTime      @default(now())
+  email         String?
+  facilities    Facility[]
+  firstName     String?
+  id            String        @id @default(cuid())
+  lastName      String?
+  licenseNumber String?
+  phoneNumber   String?
+  specialty     String?
+  updatedAt     DateTime      @updatedAt
+}
+
+model Patient {
+  appointments Appointment[]
+  createdAt    DateTime           @default(now())
+  dateOfBirth  DateTime?
+  email        String?
+  firstName    String?
+  gender       EnumPatientGender?
+  id           String             @id @default(cuid())
+  lastName     String?
+  phoneNumber  String?
+  updatedAt    DateTime           @updatedAt
+}
+
+model Accountant {
+  createdAt   DateTime   @default(now())
+  email       String?
+  employeeId  String?
+  facilities  Facility[]
+  firstName   String?
+  id          String     @id @default(cuid())
+  lastName    String?
+  phoneNumber String?
+  updatedAt   DateTime   @updatedAt
+}
+
+model Appointment {
+  appointmentDate   DateTime?
+  appointmentReason String?
+  createdAt         DateTime  @default(now())
+  doctor            Doctor?   @relation(fields: [doctorId], references: [id])
+  doctorId          String?
+  id                String    @id @default(cuid())
+  patient           Patient?  @relation(fields: [patientId], references: [id])
+  patientId         String?
+  updatedAt         DateTime  @updatedAt
+}
+
+model FacilityAdmin {
+  createdAt   DateTime   @default(now())
+  email       String?
+  employeeId  String?
+  facilities  Facility[]
+  firstName   String?
+  id          String     @id @default(cuid())
+  lastName    String?
+  phoneNumber String?
+  updatedAt   DateTime   @updatedAt
+}
+
+model SuperAdmin {
+  createdAt   DateTime @default(now())
+  email       String?
+  employeeId  String?
+  firstName   String?
+  id          String   @id @default(cuid())
+  lastName    String?
+  phoneNumber String?
+  updatedAt   DateTime @updatedAt
+}
+
+model Facility {
+  accountant      Accountant?    @relation(fields: [accountantId], references: [id])
+  accountantId    String?
+  address         String?
+  contactNumber   String?
+  createdAt       DateTime       @default(now())
+  doctor          Doctor?        @relation(fields: [doctorId], references: [id])
+  doctorId        String?
+  facilityAdmin   FacilityAdmin? @relation(fields: [facilityAdminId], references: [id])
+  facilityAdminId String?
+  id              String         @id @default(cuid())
+  name            String?
+  typeField       String?
+  updatedAt       DateTime       @updatedAt
+}
+
+enum EnumPatientGender {
+  Option1
+}
