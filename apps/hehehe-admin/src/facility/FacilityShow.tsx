@@ -1,0 +1,45 @@
+import * as React from "react";
+import {
+  Show,
+  SimpleShowLayout,
+  ShowProps,
+  ReferenceField,
+  TextField,
+  DateField,
+} from "react-admin";
+import { ACCOUNTANT_TITLE_FIELD } from "../accountant/AccountantTitle";
+import { DOCTOR_TITLE_FIELD } from "../doctor/DoctorTitle";
+import { FACILITYADMIN_TITLE_FIELD } from "../facilityAdmin/FacilityAdminTitle";
+
+export const FacilityShow = (props: ShowProps): React.ReactElement => {
+  return (
+    <Show {...props}>
+      <SimpleShowLayout>
+        <ReferenceField
+          label="Accountant"
+          source="accountant.id"
+          reference="Accountant"
+        >
+          <TextField source={ACCOUNTANT_TITLE_FIELD} />
+        </ReferenceField>
+        <TextField label="address" source="address" />
+        <TextField label="contactNumber" source="contactNumber" />
+        <DateField source="createdAt" label="Created At" />
+        <ReferenceField label="Doctor" source="doctor.id" reference="Doctor">
+          <TextField source={DOCTOR_TITLE_FIELD} />
+        </ReferenceField>
+        <ReferenceField
+          label="FacilityAdmin"
+          source="facilityadmin.id"
+          reference="FacilityAdmin"
+        >
+          <TextField source={FACILITYADMIN_TITLE_FIELD} />
+        </ReferenceField>
+        <TextField label="ID" source="id" />
+        <TextField label="name" source="name" />
+        <TextField label="type" source="typeField" />
+        <DateField source="updatedAt" label="Updated At" />
+      </SimpleShowLayout>
+    </Show>
+  );
+};
